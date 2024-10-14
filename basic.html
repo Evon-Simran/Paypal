@@ -235,6 +235,10 @@
             "shippigAddresId": shippingIdParam ? shippingIdParam : null,
             "fundingSource": data.paymentSource
           };
+          import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { getDatabase } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+
+// Your web app's Firebase configuration
            const firebaseConfig = {
       apiKey: "AIzaSyDnwfyNGpv6jRxwZUXWwW8BaiU050bEiAM",
       authDomain: "indit-f68fb.firebaseapp.com",

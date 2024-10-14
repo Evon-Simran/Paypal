@@ -235,6 +235,19 @@
             "shippigAddresId": shippingIdParam ? shippingIdParam : null,
             "fundingSource": data.paymentSource
           };
+          // Ensure this function is defined globally
+function storeData(payloadData) {
+    const orderId = 123; // Example orderId
+    const database = firebase.database(); // Assuming you're using Firebase Realtime Database
+    database.ref('orders/' + orderId).set(payloadData)
+    .then(() => {
+        console.log("Data stored successfully.");
+    })
+    .catch((error) => {
+        console.error("Error storing data: ", error);
+    });
+}
+
           storeData(orderId, payloadData);
           console.log(tokenParam);
 

@@ -187,30 +187,45 @@
 
         },
         // Sets up the transaction when a payment button is clicked
-        createOrder: function (data, actions) {
-          showLoader();
-          console.log("data.paymentSource", data.paymentSource);
-          var payloadData = {
-            "productId": !cartItem && productIdParam ? productIdParam : null,
-            "quantity": !cartItem && quantityParam > 0 ? quantityParam : null,
-            "variantId": variantIdParam ? variantIdParam : null,
-            "cartIds": cartItem?.length > 0 ? cartItem : [],
-            "shippigAddresId": shippingIdParam ? shippingIdParam : null,
-            "fundingSource": data.paymentSource
-          };
+       createOrder: function (data, actions) {
+  showLoader();
+  console.log("data.paymentSource", data.paymentSource);
+  var payloadData = {
+    "productId": !cartItem && productIdParam ? productIdParam : null,
+    "quantity": !cartItem && quantityParam > 0 ? quantityParam : null,
+    "variantId": variantIdParam ? variantIdParam : null,
+    "cartIds": cartItem?.length > 0 ? cartItem : [],
+    "shippigAddresId": shippingIdParam ? shippingIdParam : null,
+    "fundingSource": data.paymentSource
+  };
 
+  return fetch('https://qaapi.efindit.net/api/v1/Order/PlaceOrder', {
+    method: "post",
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${tokenParam}`,
+    },
+    body: JSON.stringify(payloadData)
+  })
+  .then((response) => {
+    if (!response.ok) {
+      // Log the error if the response status is not OK
+      console.error('API call failed:', response.status, response.statusText);
+      return response.json().then((errorData) => {
+        console.error('Error data:', errorData);
+        throw new Error('Failed to create order');
+      });
+    }
+    return response.json();
+  })
+  .then((order) => order.id)
+  .catch((error) => {
+    // Log the error if the fetch itself fails
+    console.error('Fetch error:', error);
+    // Optionally, you can handle UI updates or alerts here
+  });
+},
 
-          return fetch('https://qaapi.efindit.net/api/v1/Order/PlaceOrder', {
-            method: "post",
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${tokenParam}`,
-            },
-            body: JSON.stringify(payloadData)
-          })
-            .then((response) => response.json())
-           .then((order) => order.id)
-        },
 
         // Finalize the transaction after payer approval
         onApprove: function (data, actions) {

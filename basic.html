@@ -51,6 +51,37 @@
   </style>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js"></script>
+  <script type="module">
+    // Import Firebase core and required services
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+    import { getDatabase } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDnwfyNGpv6jRxwZUXWwW8BaiU050bEiAM",
+      authDomain: "indit-f68fb.firebaseapp.com",
+      projectId: "indit-f68fb",
+      storageBucket: "indit-f68fb.appspot.com",
+      messagingSenderId: "1012183571371",
+      appId: "1:1012183571371:web:523d24ec7aeb724ce150ee",
+      measurementId: "G-25QTE7VYV4"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+
+    function storeData(orderId, payloadData) {
+      const orderRef = database.ref('orders/' + orderId); 
+      orderRef.set(payloadData)
+        .then(() => {
+          console.log("Data stored successfully.");
+        })
+        .catch((error) => {
+          console.error("Error storing data: ", error);
+        });
+    }
+  </script>
 </head>
 
 <body>
@@ -175,29 +206,7 @@
 
       // Displays PayPal buttons
       let fundingSource;
- const firebaseConfig = {
-    apiKey: "AIzaSyDnwfyNGpv6jRxwZUXWwW8BaiU050bEiAM",
-    authDomain: "indit-f68fb.firebaseapp.com",
-    projectId: "indit-f68fb",
-    storageBucket: "indit-f68fb.appspot.com",
-    messagingSenderId: "1012183571371",
-    appId: "1:1012183571371:web:523d24ec7aeb724ce150ee",
-    measurementId: "G-25QTE7VYV4"
-  };
 
-  firebase.initializeApp(firebaseConfig);
-
-  // Ensure this function is defined globally
-  function storeData(orderId, payloadData) {
-    const database = firebase.database();
-    database.ref('orders/' + orderId).set(payloadData)
-      .then(() => {
-        console.log("Data stored successfully.");
-      })
-      .catch((error) => {
-        console.error("Error storing data: ", error);
-      });
-  }
       paypal.Buttons({
 
         onClick: (data) => {

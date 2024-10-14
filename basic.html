@@ -71,16 +71,16 @@
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
 
-    function storeData(orderId, payloadData) {
-      const orderRef = database.ref('orders/' + orderId); 
-      orderRef.set(payloadData)
+    window.storeData = function(orderId, payloadData) {
+      const orderRef = ref(database, 'orders/' + orderId);
+      set(orderRef, payloadData)
         .then(() => {
           console.log("Data stored successfully.");
         })
         .catch((error) => {
           console.error("Error storing data: ", error);
         });
-    }
+    };
   </script>
 </head>
 

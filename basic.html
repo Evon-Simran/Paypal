@@ -10,8 +10,8 @@
   <!-- Sample CSS styles for demo purposes. You can override these styles to match your web page's branding. -->
   <link rel="stylesheet" type="text/css"
     href="https://www.paypalobjects.com/webstatic/en_US/developer/docs/css/cardfields.css" />
-    <style>
-       #loader {
+  <style>
+    #loader {
       border: 12px solid #f3f3f3;
       border-radius: 50%;
       border-top: 12px solid #444444;
@@ -46,9 +46,36 @@
       justify-content: center;
       align-items: center;
       z-index: 999;
-      display: none; 
+      display: none;
     }
   </style>
+  <script>
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDnwfyNGpv6jRxwZUXWwW8BaiU050bEiAM",
+      authDomain: "indit-f68fb.firebaseapp.com",
+      projectId: "indit-f68fb",
+      storageBucket: "indit-f68fb.appspot.com",
+      messagingSenderId: "1012183571371",
+      appId: "1:1012183571371:web:523d24ec7aeb724ce150ee",
+      measurementId: "G-25QTE7VYV4"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const database = firebase.database();
+
+    function storeData(orderId, payloadData) {
+      database.ref('orders/' + orderId).set(payloadData)
+        .then(() => {
+          console.log("Data stored successfully.");
+        })
+        .catch((error) => {
+          console.error("Error storing data: ", error);
+        });
+    }
+  </script>
 </head>
 
 <body>
@@ -84,10 +111,10 @@
       // var clientIdParam = getQueryParam('clientId');
       // var clientIdTokenParam = getQueryParam('clientIdToken');
       // Define your client token
-    //  document.getElementById("loader-container").style.display = "block";
-    // let loadingDisplay=document.getElementById("loader-container");
-    // loadingDisplay?.style?.display = "block";
-    
+      //  document.getElementById("loader-container").style.display = "block";
+      // let loadingDisplay=document.getElementById("loader-container");
+      // loadingDisplay?.style?.display = "block";
+
       const dataToSend = {
         "client-id": clientIdParam
       }
@@ -107,14 +134,14 @@
       //alert(scriptElement['data-client-token'])
       //scriptElement["data-client-token"] = clientIdTokenParam;
       // Append the script to the document's head
-      debugger
+
 
       document.body.appendChild(scriptElement);
 
       if (cb)
 
         scriptElement.addEventListener('load', function () {
-         
+
           cb();
         });
 
@@ -173,7 +200,7 @@
         },
         onCancel: function (data) {
 
-
+          let orderId = Math.floor(Math.random() * 1000000);
           //console.log(data);
           return fetch('https://qaapi.efindit.net/api/v1/order/cancelpayment/' + data.orderID, {
             method: "post",
@@ -187,44 +214,44 @@
 
         },
         // Sets up the transaction when a payment button is clicked
-       createOrder: function (data, actions) {
-  showLoader();
-  console.log("data.paymentSource", data.paymentSource);
-  var payloadData = {
-    "productId": !cartItem && productIdParam ? productIdParam : null,
-    "quantity": !cartItem && quantityParam > 0 ? quantityParam : null,
-    "variantId": variantIdParam ? variantIdParam : null,
-    "cartIds": cartItem?.length > 0 ? cartItem : [],
-    "shippigAddresId": shippingIdParam ? shippingIdParam : null,
-    "fundingSource": data.paymentSource
-  };
-
-  return fetch('https://qaapi.efindit.net/api/v1/Order/PlaceOrder', {
-    method: "post",
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${tokenParam}`,
-    },
-    body: JSON.stringify(payloadData)
-  })
-  .then((response) => {
-    if (!response.ok) {
-      // Log the error if the response status is not OK
-      console.error('API call failed:', response.status, response.statusText);
-      return response.json().then((errorData) => {
-        console.error('Error data:', errorData);
-        throw new Error('Failed to create order');
-      });
-    }
-    return response.json();
-  })
-  .then((order) => order.id)
-  .catch((error) => {
-    // Log the error if the fetch itself fails
-    console.error('Fetch error:', error);
-    // Optionally, you can handle UI updates or alerts here
-  });
-},
+        createOrder: function (data, actions) {
+          showLoader();
+          console.log("data.paymentSource", data.paymentSource);
+          var payloadData = {
+            "productId": !cartItem && productIdParam ? productIdParam : null,
+            "quantity": !cartItem && quantityParam > 0 ? quantityParam : null,
+            "variantId": variantIdParam ? variantIdParam : null,
+            "cartIds": cartItem?.length > 0 ? cartItem : [],
+            "shippigAddresId": shippingIdParam ? shippingIdParam : null,
+            "fundingSource": data.paymentSource
+          };
+          storeData(orderId, payloadData);
+          return fetch('https://qaapi.efindit.net/api/v1/Order/PlaceOrder', {
+            method: "post",
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${tokenParam}`,
+            },
+            body: JSON.stringify(payloadData)
+          })
+            .then((response) => {
+              if (!response.ok) {
+                // Log the error if the response status is not OK
+                console.error('API call failed:', response.status, response.statusText);
+                return response.json().then((errorData) => {
+                  console.error('Error data:', errorData);
+                  throw new Error('Failed to create order');
+                });
+              }
+              return response.json();
+            })
+            .then((order) => order.id)
+            .catch((error) => {
+              // Log the error if the fetch itself fails
+              console.error('Fetch error:', error);
+              // Optionally, you can handle UI updates or alerts here
+            });
+        },
 
 
         // Finalize the transaction after payer approval
@@ -362,7 +389,7 @@
     </tr>
   </table>
 
-  
+
 
 
 </body>

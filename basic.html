@@ -49,7 +49,7 @@
       display: none;
     }
   </style>
-  <script>
+  <script type="module">
     // Your web app's Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyDnwfyNGpv6jRxwZUXWwW8BaiU050bEiAM",
@@ -64,9 +64,10 @@
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
-    const database = firebase.database();
+    //const database = firebase.database();
 
     function storeData(orderId, payloadData) {
+      const database = firebase.database(); 
       database.ref('orders/' + orderId).set(payloadData)
         .then(() => {
           console.log("Data stored successfully.");

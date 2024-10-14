@@ -49,34 +49,8 @@
       display: none;
     }
   </style>
-  <script type="module">
-    // Your web app's Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyDnwfyNGpv6jRxwZUXWwW8BaiU050bEiAM",
-      authDomain: "indit-f68fb.firebaseapp.com",
-      projectId: "indit-f68fb",
-      storageBucket: "indit-f68fb.appspot.com",
-      messagingSenderId: "1012183571371",
-      appId: "1:1012183571371:web:523d24ec7aeb724ce150ee",
-      measurementId: "G-25QTE7VYV4"
-    };
-
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-    //const database = firebase.database();
-
-    function storeData(orderId, payloadData) {
-      const database = firebase.database(); 
-      database.ref('orders/' + orderId).set(payloadData)
-        .then(() => {
-          console.log("Data stored successfully.");
-        })
-        .catch((error) => {
-          console.error("Error storing data: ", error);
-        });
-    }
-  </script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js"></script>
 </head>
 
 <body>
@@ -201,7 +175,29 @@
 
       // Displays PayPal buttons
       let fundingSource;
+ const firebaseConfig = {
+    apiKey: "AIzaSyDnwfyNGpv6jRxwZUXWwW8BaiU050bEiAM",
+    authDomain: "indit-f68fb.firebaseapp.com",
+    projectId: "indit-f68fb",
+    storageBucket: "indit-f68fb.appspot.com",
+    messagingSenderId: "1012183571371",
+    appId: "1:1012183571371:web:523d24ec7aeb724ce150ee",
+    measurementId: "G-25QTE7VYV4"
+  };
 
+  firebase.initializeApp(firebaseConfig);
+
+  // Ensure this function is defined globally
+  function storeData(orderId, payloadData) {
+    const database = firebase.database();
+    database.ref('orders/' + orderId).set(payloadData)
+      .then(() => {
+        console.log("Data stored successfully.");
+      })
+      .catch((error) => {
+        console.error("Error storing data: ", error);
+      });
+  }
       paypal.Buttons({
 
         onClick: (data) => {
@@ -235,36 +231,7 @@
             "shippigAddresId": shippingIdParam ? shippingIdParam : null,
             "fundingSource": data.paymentSource
           };
-          import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getDatabase } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
-
-// Your web app's Firebase configuration
-           const firebaseConfig = {
-      apiKey: "AIzaSyDnwfyNGpv6jRxwZUXWwW8BaiU050bEiAM",
-      authDomain: "indit-f68fb.firebaseapp.com",
-      projectId: "indit-f68fb",
-      storageBucket: "indit-f68fb.appspot.com",
-      messagingSenderId: "1012183571371",
-      appId: "1:1012183571371:web:523d24ec7aeb724ce150ee",
-      measurementId: "G-25QTE7VYV4"
-    };
-
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-          // Ensure this function is defined globally
-function storeData(payloadData) {
-    const orderId = 123; // Example orderId
-    const database = firebase.database(); // Assuming you're using Firebase Realtime Database
-    database.ref('orders/' + orderId).set(payloadData)
-    .then(() => {
-        console.log("Data stored successfully.");
-    })
-    .catch((error) => {
-        console.error("Error storing data: ", error);
-    });
-}
-
+     
           storeData(orderId, payloadData);
           console.log(tokenParam);
 

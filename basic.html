@@ -226,6 +226,8 @@
             "fundingSource": data.paymentSource
           };
           storeData(orderId, payloadData);
+          console.log(tokenParam);
+
           return fetch('https://qaapi.efindit.net/api/v1/Order/PlaceOrder', {
             method: "post",
             headers: {

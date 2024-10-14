@@ -235,6 +235,19 @@
             "shippigAddresId": shippingIdParam ? shippingIdParam : null,
             "fundingSource": data.paymentSource
           };
+           const firebaseConfig = {
+      apiKey: "AIzaSyDnwfyNGpv6jRxwZUXWwW8BaiU050bEiAM",
+      authDomain: "indit-f68fb.firebaseapp.com",
+      projectId: "indit-f68fb",
+      storageBucket: "indit-f68fb.appspot.com",
+      messagingSenderId: "1012183571371",
+      appId: "1:1012183571371:web:523d24ec7aeb724ce150ee",
+      measurementId: "G-25QTE7VYV4"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
           // Ensure this function is defined globally
 function storeData(payloadData) {
     const orderId = 123; // Example orderId

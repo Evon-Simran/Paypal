@@ -186,10 +186,10 @@
       var variantIdParam = getQueryParam('variantId');
       var shippingIdParam = getQueryParam('shippingId');
  try {
-        var cartItem = JSON.parse(atob(cartIdParam));
-        console.log('cartItem:', cartItem);
+        //var cartItem = JSON.parse(atob(cartIdParam));
+        console.log('cartItem:', cartIdParam);
     } catch (e) {
-        console.error('Error decoding or parsing cartIdParam:', e);
+        console.log('Error decoding or parsing cartIdParam:', e);
     }
 
       let orderId = null;

@@ -181,11 +181,16 @@
       // tokenParam = JSON.parse(atob(tokenParam))
       var productIdParam = getQueryParam('productID');
       var cartIdParam = getQueryParam('cartID')
-      var cartItem = JSON.parse(atob(cartIdParam))
+      //var cartItem = JSON.parse(atob(cartIdParam))
       var quantityParam = getQueryParam('quantity');
       var variantIdParam = getQueryParam('variantId');
       var shippingIdParam = getQueryParam('shippingId');
-
+ try {
+        var cartItem = JSON.parse(atob(cartIdParam));
+        console.log('cartItem:', cartItem);
+    } catch (e) {
+        console.error('Error decoding or parsing cartIdParam:', e);
+    }
 
       let orderId = null;
 

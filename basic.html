@@ -248,7 +248,7 @@
 
           return fetch('https://qaapi.efindit.net/api/v1/Order/PlaceOrder', {
   method: "post",
-  mode: 'cors', // Try using 'cors'
+  mode: 'no-cors', // Try using 'cors'
   headers: {
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${tokenParam}`,

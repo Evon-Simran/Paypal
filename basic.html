@@ -255,15 +255,15 @@
   },
   body: JSON.stringify(payloadData)
 })
-.then(response => {
-  if (!response.ok) {
-   console.error('Error:',payloadData);
-  }
-  return response.json();
-})
-.then(data => {
-  console.log(data);
-})
+// .then(response => {
+//   if (!response.ok) {
+//    console.error('Error:',payloadData);
+//   }
+//   return response.json();
+// })
+// .then(data => {
+//   console.log(data);
+// })
 .catch(error => {
   console.error('Error:', error);
 });

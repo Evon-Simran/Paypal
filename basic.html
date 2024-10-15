@@ -257,7 +257,7 @@
 })
 .then(response => {
   if (!response.ok) {
-    throw new Error("HTTP error");
+   console.error('Error:',payloadData);
   }
   return response.json();
 })

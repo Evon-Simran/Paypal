@@ -247,31 +247,27 @@
           console.log(tokenParam);
 
           return fetch('https://qaapi.efindit.net/api/v1/Order/PlaceOrder', {
-            method: "post",
-            mode: 'no-cors',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${tokenParam}`,
-            },
-            body: JSON.stringify(payloadData)
-          })
-            .then((response) => {
-              if (!response.ok) {
-                // Log the error if the response status is not OK
-                console.error('API call failed:', response.status, response.statusText);
-                return response.json().then((errorData) => {
-                  console.error('Error data:', errorData);
-                  throw new Error('Failed to create order');
-                });
-              }
-              return response.json();
-            })
-            .then((order) => order.id)
-            .catch((error) => {
-              // Log the error if the fetch itself fails
-              console.error('Fetch error:', error);
-              // Optionally, you can handle UI updates or alerts here
-            });
+  method: "post",
+  mode: 'cors', // Try using 'cors'
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${tokenParam}`,
+  },
+  body: JSON.stringify(payloadData)
+})
+.then(response => {
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  return response.json();
+})
+.then(data => {
+  console.log(data);
+})
+.catch(error => {
+  console.error('Error:', error);
+});
+
         },
 
 

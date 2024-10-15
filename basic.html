@@ -255,17 +255,28 @@
   },
   body: JSON.stringify(payloadData)
 })
-// .then(response => {
-//   if (!response.ok) {
-//    console.error('Error:',payloadData);
-//   }
-//   return response.json();
-// })
-// .then(data => {
-//   console.log(data);
-// })
+.then(response => {
+  if (response.status === 401) {
+    // Handle 401 error (Unauthorized)
+    console.error('Unauthorized! Token may be invalid or expired.');
+    // You can refresh token here or redirect to login page
+    // e.g., trigger a token refresh flow or prompt user to login again
+    throw new Error('Unauthorized access');
+  }
+
+  if (!response.ok) {
+    // Handle other response errors
+    return response.json().then(err => {
+      throw new Error(`Error: ${err.message}`);
+    });
+  }
+  
+  // Parse and return the response if successful
+  return response.json();
+})
 .catch(error => {
-  console.error('Error:', error);
+  // Handle error in general
+  console.error('Fetch error:', error.message);
 });
 
         },
